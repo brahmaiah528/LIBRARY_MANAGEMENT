@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        disableConcurrentBuilds()
+    }
+
     environment {
         PROJECT_NAME = "Library-Management-System"
         CLIENT_PORT  = "9999"
@@ -33,8 +37,11 @@ pipeline {
 
         stage('Deploy Containers') {
             steps {
+                echo 'Cleaning up existing containers if running...'
+                sh 'docker stop lms_client lms_server lms_mongodb || true'
+                sh 'docker rm lms_client lms_server lms_mongodb || true'
                 echo 'Starting MongoDB, Express Server, and React Client on port 9999...'
-                sh 'docker compose up -d'
+                sh 'docker compose up -d --remove-orphans'
             }
         }
 
@@ -42,11 +49,11 @@ pipeline {
             steps {
                 echo 'Checking running container statuses...'
                 sh 'docker compose ps'
-                sh 'sleep 10'
+                sh 'sleep 5'
                 echo 'Verifying backend API health check...'
-                sh 'curl -f http://localhost:5000/api/health || true'
+                sh 'curl -s -f http://host.docker.internal:5000/api/health || curl -s -f http://localhost:5000/api/health || true'
                 echo 'Verifying frontend accessibility on port 9999...'
-                sh 'curl -I http://localhost:9999 || true'
+                sh 'curl -s -I -H "Host: localhost" http://host.docker.internal:9999 || curl -s -I http://localhost:9999 || true'
             }
         }
 
