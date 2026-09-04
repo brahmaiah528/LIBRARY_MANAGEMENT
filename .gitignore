@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+*/node_modules/
+package-lock.json.bak
+
+# Environment Variables
+.env
+*.env
+!.env.example
+
+# Build outputs
+client/dist/
+dist/
+build/
+
+# Python cache & temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+extracted_media/
+*.log
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
