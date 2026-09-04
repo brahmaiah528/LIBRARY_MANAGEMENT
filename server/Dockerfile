@@ -17,8 +17,8 @@ RUN npm ci
 FROM dev-deps AS development
 ENV NODE_ENV=development
 WORKDIR /app
+COPY . .
 EXPOSE 5000
-# Source mounted via docker-compose volume
 CMD ["npx", "nodemon", "--delay", "500ms", "server.js"]
 
 # ── Production Builder ────────────────────────

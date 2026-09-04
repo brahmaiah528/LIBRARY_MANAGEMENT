@@ -17,6 +17,7 @@ RUN npm ci
 FROM dev-deps AS development
 ENV NODE_ENV=development
 WORKDIR /app
+COPY . .
 EXPOSE 3000
 # --host 0.0.0.0 makes Vite reachable from outside container
 CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "3000"]

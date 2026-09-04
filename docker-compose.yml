@@ -54,11 +54,6 @@ services:
       MONGO_URI: mongodb://root:${MONGO_PASSWORD:-root}@mongodb:27017/library_management?authSource=admin
       JWT_SECRET: ${JWT_SECRET:-supersecret_library_jwt_key_2026}
       FINE_PER_DAY: ${FINE_PER_DAY:-5}
-    volumes:
-      # Mount source for hot-reload in dev (remove for production)
-      - ./server:/app
-      # Preserve container's node_modules (don't sync from host)
-      - /app/node_modules
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/api/health"]
       interval: 15s
@@ -85,11 +80,6 @@ services:
       NODE_ENV: development
       # Vite proxy in development
       VITE_API_URL: http://server:5000
-    volumes:
-      # Mount source for hot-reload in dev (remove for production)
-      - ./client:/app
-      # Preserve container's node_modules
-      - /app/node_modules
     networks:
       - lms_network
 

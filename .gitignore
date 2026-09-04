@@ -25,3 +25,5 @@ extracted_media/
 Thumbs.db
 .vscode/
 .idea/
+jenkins-cli.jar
+jenkins_job_config.xml

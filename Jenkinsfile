@@ -51,9 +51,9 @@ pipeline {
                 sh 'docker compose ps'
                 sh 'sleep 5'
                 echo 'Verifying backend API health check...'
-                sh 'curl -s -f http://host.docker.internal:5000/api/health || curl -s -f http://localhost:5000/api/health || true'
+                sh 'curl -s -f http://host.docker.internal:5000/api/health && echo ""'
                 echo 'Verifying frontend accessibility on port 9999...'
-                sh 'curl -s -I -H "Host: localhost" http://host.docker.internal:9999 || curl -s -I http://localhost:9999 || true'
+                sh 'curl -s -I -H "Host: localhost" http://host.docker.internal:9999 | head -n 5'
             }
         }
 
